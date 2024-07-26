@@ -34,8 +34,8 @@ form.addEventListener('submit',(events)=>{
    
           const uid = user.uid;
           // ...
-        } else {
-     
+        } else if( uid != user.uid){
+
         }
       });
       
