@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<!-- 10a036 -->
 <style>
     body{
         background-color: black;
@@ -13,15 +14,18 @@
     }
     
     button{
+        font-weight:bold;
         font-size: 1rem;
-        width: 120px;
-        height: 35px;
-        padding: 4px;
-        color:white ;
-        background-color: rgb(16, 160, 54);
-    border-radius: 20px;
-    border: none;
-    margin-top:10px; ;
+        width: 140px;
+        height: 40px;
+        padding: 5px;
+        background-color:#10a036;
+        /* background-color:#b3460be0; */
+        color: white;
+        border: 2PX solid black;
+    border-radius: 8px;
+    margin-top:7px; ;
+    margin: auto;
     
     
     }
@@ -48,6 +52,21 @@
         border-radius: 25px;
         border: 2px solid white;
     }
+    #email-icon{
+        margin-left: 10px;
+        font-size: 1.2rem;
+        color: black;
+    }
+    #google-icon{
+        margin-left: 10px;
+        font-size: 1.2rem;
+        color: black;
+    }
+    #github-icon{
+        margin-left: 10px;
+        font-size: 1.2rem;
+        color: black;
+    }
         </style>
         
 <body>
@@ -60,13 +79,24 @@
             
             <input type="password" placeholder="Enter your password" id="password"> <br><br>
             
-            <button type="submit" id="btn">Login</button>
-        </form>
+             <button type="submit" id="login-email-btn">Login with<!--<span id="email-icon"><i class="fa-solid fa-envelope"></i></span> --></button>
+<br><br>
+
+</form>
+
+<button type="submit" id="login-google-btn">Login with <span id="google-icon"><i class="fa-brands fa-google"></i></span></button>
+<br><br>
+
+
+<button type="submit" id="login-github-btn">Login with <span id="github-icon"><i class="fa-brands fa-github"></i></span></button>
+<br><br>
+
         
         <a href="./index.html" id="ancher">not a user ?</a>
-        
     </div>
         
-        <script type="module" src="login.js"></script>
+    
+    <script src="https://kit.fontawesome.com/cd09fe5100.js" crossorigin="anonymous"></script>
+    <script type="module" src="login.js"></script>
 </body>
 </html>

@@ -1,16 +1,34 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDCBGXwLSdQ9U56gWkiSh6uBHnIiW5q5xM",
-  authDomain: "practice-smit.firebaseapp.com",
-  projectId: "practice-smit",
-  storageBucket: "practice-smit.appspot.com",
-  messagingSenderId: "153366729290",
-  appId: "1:153366729290:web:923d668c8c805997a30cb3",
-  measurementId: "G-3X9MQZJTPB"
+  apiKey: "AIzaSyDI6hl-FtSttkoWEcvlmtBpPTyTgQa0a9E",
+  authDomain: "login-signup-dc732.firebaseapp.com",
+  projectId: "login-signup-dc732",
+  storageBucket: "login-signup-dc732.appspot.com",
+  messagingSenderId: "536296065061",
+  appId: "1:536296065061:web:813ed8075cbf58d521d7cc",
+  measurementId: "G-LNS2FFJPPL"
 };
 
-
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+ const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app)
+
+export const db = getFirestore(app);
+
+
+
+
+
+
+
+
+
+
+
+

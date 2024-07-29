@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { auth } from "./firebaseconfig.js";
 
 console.log('Bismillah');
@@ -19,15 +19,14 @@ createUserWithEmailAndPassword(auth, email.value,password.value)
     const user = userCredential.user;
     console.log(user);
     window.location = './login.html';
-email.value=''
-password.value=''
+
 
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorMessage);
-
+alert(errorMessage);
   });
 
 
