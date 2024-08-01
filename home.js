@@ -1,4 +1,4 @@
-import {   collection, addDoc , getDocs , doc, deleteDoc   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
+import {   collection, addDoc , getDocs , doc, deleteDoc , updateDoc   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
 
 import{ signOut }from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js" 
 
@@ -34,7 +34,7 @@ async function getDataFromFirestore(){
     
     querySnapshot.forEach((doc) => {
         
-        // console.log(`${doc.id} => ${doc.data()}`);
+        console.log(`${doc.id} => ${doc.data()}`);
             arr.push({...doc.data() , id:doc.id})
             
     });
@@ -96,10 +96,47 @@ function render(){
                     await deleteDoc(doc(db, "todos", arr[index].id));
                     
                     arr.splice(index,1);
+
                     render()
                     
                 });
+
+
             });
+
+editBtn.forEach((ebtn,index)=>{
+
+    // console.log(editBtn);
+ebtn.addEventListener('click',async()=>{
+
+
+
+    const updatedValue = prompt('Enter update');
+    
+arr.splice(index,1,updatedValue);
+
+const todoUpdate = doc(db, "todos", arr[index].id);
+
+await updateDoc(todoUpdate, {
+  todo: updatedValue,
+});
+
+arr[index].todo=updatedValue;
+// render()
+
+
+render()
+
+})
+
+
+
+
+
+})
+
+
+
 
         })
     }
@@ -111,37 +148,9 @@ function render(){
 
 
 
-
-
-
-
-
-
+    
     // ========================  EDIT BUTTON STARTED ===========================  //
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // ========================  EDIT BUTTON ENDED ===========================  //
-    
-
-
     
     //  =======================  RANDER TODO FUNCTION END========================== //
 
@@ -156,6 +165,7 @@ function render(){
 
 addBtn.addEventListener("click",()=>{
     if(todo.value === ''){
+
         alert('Enter todo to add')
      
         render()
@@ -186,7 +196,7 @@ form.addEventListener("submit",async(event)=>{
             
             
         })
-        
+        render()
         todo.value = '';
         
     } catch (e) {
