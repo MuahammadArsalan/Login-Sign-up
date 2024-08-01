@@ -1,4 +1,4 @@
-import {   collection, addDoc , getDocs  } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
+import {   collection, addDoc , getDocs , doc, deleteDoc   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
 
 import{ signOut }from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js" 
 
@@ -15,9 +15,39 @@ const form =document.querySelector('#form');
 const addBtn =document.querySelector('#add-todo');
 const todo =document.querySelector('#todo');
 const ul =document.querySelector('#ul');
+const deleteBtn = document.querySelectorAll('#delete')
+const editBtn = document.querySelectorAll('#edit');
+
+
+
 
 
 const arr = [];
+
+
+
+
+async function getDataFromFirestore(){
+    
+    const querySnapshot = await getDocs(collection(db, "todos"));
+    
+    
+    querySnapshot.forEach((doc) => {
+        
+        // console.log(`${doc.id} => ${doc.data()}`);
+            arr.push({...doc.data() , id:doc.id})
+            
+    });
+
+    render()
+    console.log(arr);
+};
+
+getDataFromFirestore() 
+
+
+
+
 
 // onAuthStateChanged(auth, (user) => {
 //     if (user) {
@@ -30,18 +60,9 @@ const arr = [];
 //         window.location = './login.html';
 //     }
 // });
-const logOutBtn =document.querySelector('#button-logOut');
-logOutBtn.addEventListener("click", () => {
-    signOut(auth)
-      .then(() => {
-        alert('Are you agree')
-            window.location = "./login.html";
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
 
+
+//  =======================  RANDER TODO FUNCTION START========================== //
 
 
 function render(){
@@ -52,54 +73,124 @@ function render(){
         ul.innerHTML = 'item not found....';
         return ;
     };
-
+    
     arr.map((item)=>{
-ul.innerHTML += `
+        ul.innerHTML += `
+        
+        <li>${item.todo}
+        <button id="delete">delete</button>
+        <button id="edit">edit</button>
+        
+        </li>
+        
+        `
 
-<li>${item.todo}
-<button id="delete">delete</button>
-<button id="edit">edit</button>
+        const deleteBtn = document.querySelectorAll('#delete');
+        const editBtn = document.querySelectorAll('#edit');
+        
+            // ========================  DELETE BUTTON STARTED===========================  //
+            deleteBtn.forEach((btn , index)=>{
+                
+                btn.addEventListener('click',async()=>{
+                    
+                    await deleteDoc(doc(db, "todos", arr[index].id));
+                    
+                    arr.splice(index,1);
+                    render()
+                    
+                });
+            });
 
-</li>
+        })
+    }
+    // ========================  DELETE BUTTON ENDED ===========================  //
 
-`
 
-    })
-}
 
-// ------Form Event---------- //
+
+
+
+
+
+
+
+
+
+
+    // ========================  EDIT BUTTON STARTED ===========================  //
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // ========================  EDIT BUTTON ENDED ===========================  //
+    
+
+
+    
+    //  =======================  RANDER TODO FUNCTION END========================== //
+
+
+
+
+
+
+
+//  =======================  ADD TODO BUTTON========================== //
+
 
 addBtn.addEventListener("click",()=>{
     if(todo.value === ''){
-      alert('Enter todo to add')
-      render()
+        alert('Enter todo to add')
+     
+        render()
     }
 })
 
 form.addEventListener("submit",async(event)=>{
-
+    
     event.preventDefault();
     
+    render();
     
-    arr.push({
-        todo:todo.value,
-})
-
-render();
-
-try {
-    const docRef = await addDoc(collection(db, "todos"),{
-  
-        todo:todo.value,
+    try {
+        const docRef = await addDoc(collection(db, "todos"),{
+            
+            todo:todo.value,
+            
+            
+        } );
         
-    } );
-
-    todo.value = '';
-
-    console.log("Document written with ID: ", docRef.id);
+        
+        console.log("Document written with ID: ", docRef.id);
+        
+        arr.push({
+            
+            todo:todo.value,
+            id:docRef.id    ,
+            
+            
+        })
+        
+        todo.value = '';
+        
+    } catch (e) {
     
-} catch (e) {
-
     console.error("Error adding document: ", e);
 }
 
@@ -110,24 +201,70 @@ try {
 })
 
 
+//  =======================  ADD TODO BUTTON========================== //
 
 
 
-async function read(){
-    const querySnapshot = await getDocs(collection(db, "todos"));
+
     
-    
-    querySnapshot.forEach((doc) => {
-    
-      console.log(`${doc.id} => 
-        
-        ${doc.data()}`);
-        arr.push(doc.data())
-    
+//  =======================  DELETE TODO FUNCTIONALITY START ========================== //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  =======================  DELETE TODO FUNCTIONALITY END  ========================== //
+
+
+
+
+
+
+
+
+
+
+
+  //  =======================  LOGOUT   START========================== //
+  
+  const logOutBtn =document.querySelector('#button-logOut');
+logOutBtn.addEventListener("click", () => {
+    signOut(auth)
+    .then(() => {
+        alert('Are you agree')
+        window.location = "./login.html";
+    })
+    .catch((error) => {
+        console.log(error);
     });
-    render()
-    };
+});
+
+//  =======================  LOGOUT   END========================== //
 
 
-    read()
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
