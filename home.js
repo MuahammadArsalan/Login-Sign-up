@@ -1,6 +1,6 @@
 import {   collection, addDoc , getDocs , doc, deleteDoc , updateDoc, query, where,    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
 
-import{ signOut }from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js" 
+import{ signOut,onAuthStateChanged }from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js" 
 
 import { auth } from "./firebaseconfig.js";
 import { db } from "./firebaseconfig.js";
@@ -37,7 +37,7 @@ async function getDataFromFirestore(){
     querySnapshot.forEach((doc) => {
         
         // console.log(`${doc.id} => ${doc.data()}`);
-            arr.push({...doc.data() , id:doc.id,city:select.value,})
+            arr.push({...doc.data() , id:doc.id, city:select.value,})
             
     });
 
@@ -51,17 +51,18 @@ getDataFromFirestore()
 
 
 
-// onAuthStateChanged(auth, (user) => {
-//     if (user) {
+onAuthStateChanged(auth, (user) => {
+    if (user) {
         
         
-//         const uid = user.uid;
+        const uid = user.uid;
         
-//     } else {
+    } else {
         
-//         window.location = './login.html';
-//     }
-// });
+        window.location = './login.html';
+    }
+});
+
 
 
 //  =======================  RANDER TODO FUNCTION START========================== //
@@ -192,7 +193,7 @@ form.addEventListener("submit",async(event)=>{
             
             todo:todo.value,
             id:docRef.id    ,
-city:select.value,            
+                city:select.value,            
             
         })
         console.log(arr);
@@ -239,14 +240,14 @@ console.log(event.target.innerHTML);
           
 
                 arr.push({...doc.data() , id:doc.id,
-                    city:select.value})
+                })
                 
             });
             
             
-            
-            console.log(arr);
             render()
+            console.log(arr);
+            
         })
         
     })
