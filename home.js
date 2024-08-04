@@ -1,4 +1,4 @@
-import {   collection, addDoc , getDocs , doc, deleteDoc , updateDoc   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
+import {   collection, addDoc , getDocs , doc, deleteDoc , updateDoc, query, where,    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js"; 
 
 import{ signOut }from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js" 
 
@@ -17,12 +17,14 @@ const todo =document.querySelector('#todo');
 const ul =document.querySelector('#ul');
 const deleteBtn = document.querySelectorAll('#delete')
 const editBtn = document.querySelectorAll('#edit');
+const citiesBtn = document.querySelectorAll('.cities-btn');
+const select= document.querySelector('#cities');
 
 
 
 
 
-const arr = [];
+let arr = [];
 
 
 
@@ -34,8 +36,8 @@ async function getDataFromFirestore(){
     
     querySnapshot.forEach((doc) => {
         
-        console.log(`${doc.id} => ${doc.data()}`);
-            arr.push({...doc.data() , id:doc.id})
+        // console.log(`${doc.id} => ${doc.data()}`);
+            arr.push({...doc.data() , id:doc.id,city:select.value,})
             
     });
 
@@ -109,21 +111,17 @@ editBtn.forEach((ebtn,index)=>{
     // console.log(editBtn);
 ebtn.addEventListener('click',async()=>{
 
-
-
     const updatedValue = prompt('Enter update');
-    
-arr.splice(index,1,updatedValue);
+   ( updatedValue === '' ) ? alert('Are you sure not to make changes') : console.log('abc');
 
-const todoUpdate = doc(db, "todos", arr[index].id);
+// arr.splice(index,1,updatedValue);
 
-await updateDoc(todoUpdate, {
-  todo: updatedValue,
-});
+    const todosUpdate = doc(db, "todos" ,arr[index].id) ;
 
-arr[index].todo=updatedValue;
-// render()
-
+    await updateDoc(todosUpdate, {
+todo:updatedValue,
+    });
+        arr[index].todo = updatedValue;
 
 render()
 
@@ -182,6 +180,7 @@ form.addEventListener("submit",async(event)=>{
         const docRef = await addDoc(collection(db, "todos"),{
             
             todo:todo.value,
+            city:select.value,
             
             
         } );
@@ -193,9 +192,10 @@ form.addEventListener("submit",async(event)=>{
             
             todo:todo.value,
             id:docRef.id    ,
-            
+city:select.value,            
             
         })
+        console.log(arr);
         render()
         todo.value = '';
         
@@ -218,6 +218,53 @@ form.addEventListener("submit",async(event)=>{
 
     
 //  =======================  DELETE TODO FUNCTIONALITY START ========================== //
+citiesBtn.forEach((btn,index)=>{
+    
+    btn.addEventListener('click',async(event)=>{
+        arr = []
+        
+        // console.log(btn.innerHTML);
+console.log(event.target.innerHTML);
+        const citiesRef = collection(db, "todos");
+
+
+
+        const q = query(citiesRef, where("city", "==", event.target.innerHTML));
+
+        const querySnapshot = await getDocs(q);
+    
+    
+        querySnapshot.forEach((doc) => {
+            
+          
+
+                arr.push({...doc.data() , id:doc.id,
+                    city:select.value})
+                
+            });
+            
+            
+            
+            console.log(arr);
+            render()
+        })
+        
+    })
+    
+
+
+// karachiBtn.addEventListener('click',async()=>{
+
+
+//     const q = query(collection(db, "todos"), where("cities", "==", "karachi"));
+
+//     const querySnapshot = await getDocs(q);
+//     querySnapshot.forEach((doc) => {
+      
+//       console.log(doc.id, " => ", doc.data());
+//     });
+
+// })
 
 
 

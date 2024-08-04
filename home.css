@@ -5,7 +5,7 @@ body{
 h1{
     text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-margin-top: 20px;
+margin-top: 30px;
 
 }
 
@@ -115,7 +115,16 @@ border-radius: 10px;
 
 
 }
-
+.button-div{
+    position: absolute;
+    top: 10px;
+}
+.ALL{
+    
+    position: absolute;
+    top: 55px;
+    left: 8px;
+}
 
 
 
